@@ -1,4 +1,9 @@
-<?php include "../includes/db.php"; ?>
+<?php 
+  include "../includes/db.php";
+  include "functions.php";
+  ob_start();
+  session_start();
+?>
 <html
   lang="en"
   class="light-style layout-menu-fixed"
