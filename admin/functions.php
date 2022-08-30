@@ -1,5 +1,5 @@
-    <?php
-
+<?php
+    // URL sanitization function
     function get_absolute_url()
     {
         $array = explode('/', $_SERVER['REQUEST_URI']);
@@ -43,9 +43,9 @@
         if (isset($_POST['update'])) {
             $id = $_POST['cat_id'];
             $title = $_POST['cat_title'];
-            $delete = "update categories set cat_title = '{$title}' where cat_id= '{$id}'";
-            $delete_query = mysqli_query($connection, $delete);
-            if (!$delete_query) {
+            $edit = "update categories set cat_title = '{$title}' where cat_id= '{$id}'";
+            $edit_query = mysqli_query($connection, $edit);
+            if (!$edit_query) {
                 die("Query failed with " . mysqli_error($connection));
             }
             header("Location:categories.php");
@@ -104,9 +104,50 @@
             session_destroy();
         }
     }
+    function edit_post()
+    {
+        if (isset($_POST['update'])) {
+            $post_id = $_POST['post_id'];
+            $post_title = $_POST['post_title'];
+            $post_category_id = $_POST['post_category_id'];
+            $post_author = $_POST['post_author'];
+            $post_status = $_POST['post_status'];
+            $post_tags = $_POST['post_tags'];
+            $post_content = $_POST['post_content'];
+            // File storing
+            if($_FILES['post_image']['tmp_name']) {
+                $post_image = $_FILES['post_image']['name'];
+                $post_image_tmp = $_FILES['post_image']['tmp_name'];
+                move_uploaded_file($post_image_tmp, "../assets/img/posts/$post_image");
+                $post_image = 'http://localhost/cms/assets/img/posts/' . $post_image;    
+            }
+            $post_comment_count = 12;
+            $post_view_count = 1456;
+
+            $edit = "update posts set post_title = '{$post_title}'";
+            $edit .= ", post_category_id = '{$post_category_id}'";
+            $edit .= ", post_author = '{$post_author}'";
+            $edit .= ", post_status = '{$post_status}'";
+            $edit .= ", post_tags = '{$post_tags}'";
+            $edit .= ", post_content = '{$post_content}'";
+            if($_FILES['post_image']['tmp_name']) {
+                $edit .= ", post_image = '{$post_image}'";
+            }
+            $edit .= ", post_comment_count = '{$post_comment_count}'";
+            $edit .= ", post_view_count = '{$post_view_count}'";
+            $edit .= "where post_id= '{$post_id}'";
+
+            if (check_query($edit, "edited")) {
+                header("Location:posts.php?source=edit_post&post_id=$post_id");
+            } else {
+                header("Location:posts.php?source=edit_post&post_id=$post_id");
+            }
+        } else {
+            session_destroy();
+        }
+    }
     function delete_posts()
     {
-        global $connection;
         if (isset($_GET['delete'])) {
             $id = $_GET['delete'];
             $delete = "delete from posts where post_id= '{$id}'";
