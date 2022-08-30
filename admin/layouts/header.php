@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../includes/db.php";
 include "functions.php";
 ob_start();
@@ -32,3 +33,4 @@ ob_start();
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assets/js/config.js"></script>
 </head>
+<body>

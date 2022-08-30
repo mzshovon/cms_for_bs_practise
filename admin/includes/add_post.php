@@ -15,16 +15,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/4.0.14/css/froala_editor.min.css" integrity="sha512-X5etY6JrAxOdXx/oyB9sqZ4IYEx8539ccjcxxOn0NtMZ7Tgl8WzMOjDe5Hw0//gEsiZpt7tQFfAawQA4cId0rw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- scripts and css files for editor ends here -->
 <?php
-    insert_post();
+insert_post();
 ?>
 <div class="card mb-4">
     <?php
-        if(isset($_SESSION['message'])) {
-            echo '<div class="col-md-12"><div class="alert alert-'.$_SESSION['alert'].' alert-dismissible" role="alert">
-                    '.$_SESSION['message'].'
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div></div>';
-          }
+        if (isset($_SESSION['message'])) {
+            echo '<div class="col-md-12"><div class="alert alert-' . $_SESSION['alert'] . ' alert-dismissible" role="alert">
+                        ' . $_SESSION['message'] . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div></div>';
+        }
     ?>
     <h5 class="card-header">Add Post</h5>
     <div class="card-body">
@@ -78,6 +78,7 @@
             <div class="mb-3 row">
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-outline-secondary btn-lg" name="submit" value="Publish Post">
+                    <input type="submit" class="btn btn-outline-secondary btn-lg" name="submit" value="Publish and Add Another">
                 </div>
             </div>
         </form>
