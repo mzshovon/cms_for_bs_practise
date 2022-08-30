@@ -2,7 +2,6 @@
 include "../includes/db.php";
 include "functions.php";
 ob_start();
-session_start();
 ?>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 
