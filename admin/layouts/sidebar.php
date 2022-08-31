@@ -3,6 +3,7 @@ $nav_items = [
   "index.php" => "dashboard",
   "categories.php" => "categories",
   "posts.php" => "posts",
+  "comments.php" => "comments",
 ];
 ?>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
@@ -60,7 +61,7 @@ $nav_items = [
       <li class="menu-item <?= get_absolute_url() == $value ? 'active' : '' ?>">
         <a href="<?= $key ?>" class="menu-link">
           <i class="menu-icon tf-icons bx 
-                    bx-<?= $value == "dashboard" ? 'home-circle' : ($value == "categories" ? 'box' : 'file') ?>"></i>
+                    bx-<?= $value == "dashboard" ? 'home-circle' : ($value == "categories" ? 'box' : ($value == "comments" ? 'message' : 'file')) ?>"></i>
           <div data-i18n="Analytics"><?= ucfirst($value) ?></div>
         </a>
       </li>

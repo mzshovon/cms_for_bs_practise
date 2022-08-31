@@ -27,8 +27,8 @@
             <div class="container">
               <div class="row gy-4 mb-5">
                 <?php 
-                  if(isset($_POST['submit'])) {
-                    $search = $_POST['search'];
+                  if(isset($_POST['submit']) || isset($_GET['tags'])) {
+                    $search = isset($_POST['submit']) ? $_POST['search'] : $_GET['tags'] ;
                     $query = "select * from posts where post_tags like '%$search%' order by post_date desc";
                     $result = mysqli_query($connection, $query);
                     if(mysqli_num_rows($result) == 0) {

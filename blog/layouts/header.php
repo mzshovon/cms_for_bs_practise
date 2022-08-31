@@ -1,5 +1,8 @@
+<?php 
+  session_start();
+  include "../includes/db.php"; 
+?>
 <!DOCTYPE html>
-<?php include "../includes/db.php"; ?>
 <html>
   <head>
     <meta charset="utf-8">

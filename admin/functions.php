@@ -78,8 +78,6 @@
             // File storing
             $post_image = $_FILES['post_image']['name'];
             $post_image_tmp = $_FILES['post_image']['tmp_name'];
-
-            $post_comment_count = 12;
             $post_view_count = 1456;
             if ($_POST['submit'] == "Publish and Add Another") {
                 header("Location:posts.php?source=add_post");
@@ -89,8 +87,8 @@
             move_uploaded_file($post_image_tmp, "../assets/img/posts/$post_image");
             $post_image = 'http://localhost/cms/assets/img/posts/' . $post_image;
 
-            $insert = "insert into posts(post_title, post_category_id, post_author, post_date, post_status, post_tags, post_image, post_content, post_comment_count, post_view_count) ";
-            $insert .= "value('{$post_title}', '{$post_category_id}' , '{$post_author}', now(), '{$post_status}', '{$post_tags}', '{$post_image}', '{$post_content}', '{$post_comment_count}', '{$post_view_count}')";
+            $insert = "insert into posts(post_title, post_category_id, post_author, post_date, post_status, post_tags, post_image, post_content, post_view_count) ";
+            $insert .= "value('{$post_title}', '{$post_category_id}' , '{$post_author}', now(), '{$post_status}', '{$post_tags}', '{$post_image}', '{$post_content}', '{$post_view_count}')";
             if (check_query($insert, "added")) {
                 if ($_POST['submit'] == "Publish and Add Another") {
                     header("Location:posts.php?source=add_post");
@@ -155,6 +153,87 @@
                 header("Location:posts.php");
             } else {
                 header("Location:posts.php");
+            }
+        } else {
+            session_destroy();
+        }
+    }
+    //comment section here
+    function insert_comment()
+    {
+        if (isset($_POST['submit'])) {
+            $comment_author = $_POST['comment_author'];
+            $comment_author_email = $_POST['comment_author_email'];
+            $comment_post_id = $_POST['comment_post_id'];
+            $comment_status = $_POST['comment_status'];
+            $comment_content = $_POST['comment_content'];
+            $insert = "insert into comments(comment_author, comment_author_email, comment_post_id, comment_status, comment_content, comment_date) ";
+            $insert .= "value('{$comment_author}', '{$comment_author_email}' , '{$comment_post_id}', '{$comment_status}', '{$comment_content}', now())";
+            if (check_query($insert, "added")) {
+                $update_comment_count = "update posts set post_comment_count = post_comment_count +1 where post_id= '{$comment_post_id}'";
+                if (check_query($update_comment_count, "comment successfully submitted!")) {
+                    if ($_POST['submit'] == "Submit and Add Another") {
+                        header("Location:comments.php?source=add_comment");
+                    } else {
+                        header("Location:comments.php");
+                    }
+                }
+            } else {
+                header("Location:comments.php?source=add_comment");
+            }
+        } else {
+            session_destroy();
+        }
+    }
+    function edit_comment()
+    {
+        if (isset($_POST['update'])) {
+
+            $comment_id = $_POST['comment_id'];
+            $comment_author = $_POST['comment_author'];
+            $comment_author_email = $_POST['comment_author_email'];
+            // $comment_post_id = $_POST['comment_post_id'];
+            $comment_status = $_POST['comment_status'];
+            $comment_content = $_POST['comment_content'];
+
+            $edit = "update comments set comment_author = '{$comment_author}'";
+            $edit .= ", comment_author_email = '{$comment_author_email}'";
+            // $edit .= ", comment_post_id = '{$comment_post_id}'";
+            $edit .= ", comment_status = '{$comment_status}'";
+            $edit .= ", comment_content = '{$comment_content}'";
+            $edit .= "where comment_id= '{$comment_id}'";
+
+            if (check_query($edit, "edited")) {
+                header("Location:comments.php?source=edit_comment&comment_id=$comment_id");
+            } else {
+                header("Location:comments.php?source=edit_comment&comment_id=$comment_id");
+            }
+        } else {
+            session_destroy();
+        }
+    }
+    function change_status()
+    {
+        if (isset($_GET['change_status'])) {
+            $comment_id = $_GET['comment_id'];
+            $comment_status = $_GET['change_status'];
+            $edit = "update comments set comment_status = '{$comment_status}' where comment_id= '{$comment_id}'";
+            if (check_query($edit, "changed")) {
+                header("Location:comments.php");
+            } else {
+                header("Location:comments.php");
+            }
+        }
+    }
+    function delete_comment()
+    {
+        if (isset($_GET['delete'])) {
+            $id = $_GET['delete'];
+            $delete = "delete from comments where comment_id = '{$id}'";
+            if (check_query($delete, "deleted")) {
+                header("Location:comments.php");
+            } else {
+                header("Location:comments.php");
             }
         } else {
             session_destroy();

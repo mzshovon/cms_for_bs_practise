@@ -1,5 +1,5 @@
 <?php
-  $query = "select * from categories order by cat_id desc";
+  $query = "select * from categories order by cat_id desc limit 6";
   $result = mysqli_query($connection, $query);
 ?>
 <!-- Widget [Categories Widget]-->
